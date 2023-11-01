@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", function() {
     const cameraFeed = document.getElementById("camera");
-    const detectButton = document.getElementById("start-button");
+    const startButton = document.getElementById("start-button");
+    const switchCameraButton = document.getElementById("switch-camera-button");
     const resultsSection = document.getElementById("results");
-
     let currentStream = null;
 
     // Function to start the camera feed
@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Switch camera button click event
-    document.getElementById("switch-camera-button").addEventListener("click", function() {
+    switchCameraButton.addEventListener("click", function() {
         if (currentStream) {
             currentStream.getTracks().forEach(function(track) {
                 track.stop();
@@ -40,7 +40,22 @@ document.addEventListener("DOMContentLoaded", function() {
         startCamera();
     });
 
-    detectButton.addEventListener("click", function() {
-        // You can add your license plate detection logic here and display the results in the 'resultsSection'.
+    startButton.addEventListener("click", function() {
+        // Trigger license plate detection using Python code in main.py
+        fetch("/detect-license-plates", {
+            method: "POST",
+            body: JSON.stringify({ command: "start_detection" }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Process and display the license plate detection results
+            resultsSection.innerHTML = JSON.stringify(data, null, 4);
+        })
+        .catch(error => {
+            console.error("Error in license plate detection:", error);
+        });
     });
 });
