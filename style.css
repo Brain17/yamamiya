@@ -74,4 +74,13 @@ footer p {
     font-size: 14px;
     margin: 0;
 }
-
+/* Additional styles for the switch-camera button */
+#switch-camera-button {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px; /* Add spacing between buttons */
+}
