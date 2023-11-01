@@ -1,41 +1,46 @@
 document.addEventListener("DOMContentLoaded", function() {
     const cameraFeed = document.getElementById("camera");
-    const detectButton = document.getElementById("detect-button");
+    const detectButton = document.getElementById("start-button");
     const resultsSection = document.getElementById("results");
 
-    // Check for camera support
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    let currentStream = null;
+
+    // Function to start the camera feed
+    function startCamera() {
+        const constraints = {
+            video: { facingMode: "environment" } // Use "user" for front camera
+        };
+
         navigator.mediaDevices
-            .getUserMedia({ video: true })
+            .getUserMedia(constraints)
             .then(function(stream) {
+                currentStream = stream;
                 cameraFeed.srcObject = stream;
                 cameraFeed.play();
             })
             .catch(function(error) {
                 console.error("Error accessing camera:", error);
             });
+    }
+
+    // Check for camera support
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        startCamera();
     } else {
         console.error("Camera not supported by this browser.");
     }
 
-    detectButton.addEventListener("click", function() {
-        // Here, you can run the YOLO license plate detection code using an appropriate backend (Python or API).
-        // Display the detection results in the 'resultsSection'.
-        // You may need to make an API request to your Python code running on the server.
+    // Switch camera button click event
+    document.getElementById("switch-camera-button").addEventListener("click", function() {
+        if (currentStream) {
+            currentStream.getTracks().forEach(function(track) {
+                track.stop();
+            });
+        }
+        startCamera();
+    });
 
-        // Example:
-        // fetch("/detect-license-plates", {
-        //     method: "POST",
-        //     body: videoFrameData, // Send video frame data to your Python backend
-        // })
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         // Process and display the license plate detection results
-        //         resultsSection.innerHTML = JSON.stringify(data, null, 4);
-        //     })
-        //     .catch(error => {
-        //         console.error("Error in license plate detection:", error);
-        //     });
+    detectButton.addEventListener("click", function() {
+        // You can add your license plate detection logic here and display the results in the 'resultsSection'.
     });
 });
-
