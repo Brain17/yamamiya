@@ -11,8 +11,8 @@ results = {}
 mot_tracker = Sort()
 
 # Load models and move them to the GPU (Make sure to provide the correct paths to your YOLO model files)
-coco_model = YOLO('yolov8n.pt', task='detect')
-license_plate_detector = YOLO('plate.pt', task='detect')
+coco_model = YOLO('yamamiya/yolov8n.pt', task='detect')
+license_plate_detector = YOLO('yamamiya/plate.pt', task='detect')
 
 # Load video (You should specify the video file or camera device index, e.g., 0 for the default camera)
 cap = cv2.VideoCapture(0)  # Change 0 to your video file path or camera index
