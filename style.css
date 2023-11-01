@@ -1,110 +1,80 @@
-/* Reset some default browser styles */
-body, h1, h2, p {
-    margin: 0;
-    padding: 0;
-}
-
-/* Global styles */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+    background-color: #f3f3f3;
 }
 
 header {
-    background-color: #333;
-    color: white;
+    background-color: #007BFF;
+    color: #fff;
     padding: 20px;
     text-align: center;
 }
 
-h1 {
-    font-size: 24px;
+header h1 {
+    font-size: 36px;
+    margin: 0;
 }
 
-p {
+header p {
     font-size: 16px;
 }
 
 main {
     max-width: 800px;
-    margin: 0 auto;
+    margin: 20px auto;
     padding: 20px;
     background-color: #fff;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
 }
 
-.video-container {
-    text-align: center;
+.video-container, .results-container {
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
 }
 
-#camera {
+.video-container h2, .results-container h2 {
+    font-size: 24px;
+    margin: 0 0 20px;
+}
+
+video {
     width: 100%;
-    max-width: 640px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    margin: 10px auto;
-    background-color: #f9f9f9;
 }
 
-button {
-    display: block;
-    margin: 10px auto;
+button#start-button, button#switch-camera-button {
+    background-color: #007BFF;
+    color: #fff;
     padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.2s;
 }
 
-button:hover {
-    background-color: #0056b3;
+button#start-button {
+    margin-right: 10px;
 }
 
 .results-container {
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 5px;
-}
-
-h2 {
-    font-size: 18px;
-    margin-bottom: 10px;
-}
-
-#results {
-    font-family: monospace;
-    white-space: pre-wrap;
-    background-color: #fff;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    max-height: 300px;
     overflow-y: scroll;
+    max-height: 300px;
 }
 
 footer {
     text-align: center;
-    background-color: #333;
-    color: white;
-    padding: 10px;
-    border-radius: 0 0 5px 5px;
+    padding: 10px 0;
+    background-color: #007BFF;
+    color: #fff;
 }
 
-/* Responsive styles */
-@media (max-width: 768px) {
-    main {
-        padding: 10px;
-    }
-
-    #camera {
-        max-width: 100%;
-    }
-
-    button {
-        width: 100%;
-        max-width: 300px;
-    }
+footer p {
+    font-size: 14px;
+    margin: 0;
 }
