@@ -1,30 +1,29 @@
-from ultralytics import YOLO
 import cv2
-#import torch
+import torch
 import numpy as np
 from sort.sort import Sort
 from util import get_car, read_license_plate, write_csv
 
-# Check for GPU availability and set the device
-#device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+# Check for GPU availability and set the device (use 'cuda' if you have a GPU)
+device = torch.device("cpu")
 
 results = {}
 mot_tracker = Sort()
 
-# Load models and move them to the GPU
+# Load models and move them to the GPU (Make sure to provide the correct paths to your YOLO model files)
 coco_model = YOLO('yolov8n.pt', task='detect')
 license_plate_detector = YOLO('plate.pt', task='detect')
 
-# Load video
-cap = cv2.VideoCapture('F:\Soft stuff\Linux_Recovery\Downloads/sample.mp4')
+# Load video (You should specify the video file or camera device index, e.g., 0 for the default camera)
+cap = cv2.VideoCapture(0)  # Change 0 to your video file path or camera index
 vehicles = [2, 3, 5, 7]
 
 license_plate_numbers = {}
 
-# Get the video frame dimensions and set up VideoWriter
+# Get the video frame dimensions and set up VideoWriter (This part needs corrections)
 frame_width = int(cap.get(3))
 frame_height = int(cap.get(4))
-out = cv2.VideoWriter('output_6:13.mp4', cv2.VideoWriter_fourcc(*'XVID'), 20.0, (frame_width, frame_height))
+out = cv2.VideoWriter('output.mp4', cv2.VideoWriter_fourcc(*'XVID'), 20.0, (frame_width, frame_height))
 
 # Read frames
 frame_nmr = -1
@@ -73,25 +72,30 @@ while ret:
                     license_plate_numbers[car_id] = license_plate_text
                     print(f"Car ID {car_id}: License Plate Number: {license_plate_text}")
 
-
-        # # Draw bounding boxes and text on the frame
+        # Draw bounding boxes and text on the frame
         for car_id, data in results[frame_nmr].items():
             car_bbox = data['car']['bbox']
             license_plate_bbox = data['license_plate']['bbox']
             text = data['license_plate']['text']
 
-            cv2.rectangle(frame, (int(car_bbox[0]), int(car_bbox[1])), (int(car_bbox[2]), int(car_bbox[3])), (0, 255, 0), 2)
-            cv2.rectangle(frame, (int(license_plate_bbox[0]), int(license_plate_bbox[1])), (int(license_plate_bbox[2]), int(license_plate_bbox[3])), (0, 0, 255), 2)
+            cv2.rectangle(frame, (int(car_bbox[0]), int(car_bbox[1]), int(car_bbox[2]), int(car_bbox[3]), (0, 255, 0), 2)
+            cv2.rectangle(frame, (int(license_plate_bbox[0]), int(license_plate_bbox[1]), int(license_plate_bbox[2]), int(license_plate_bbox[3]), (0, 0, 255), 2)
             cv2.putText(frame, text, (int(license_plate_bbox[0]), int(license_plate_bbox[1]) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
 
-#         # Write the frame to the output video
+        # Write the frame to the output video (This part needs corrections)
         out.write(frame)
-#
-# # Release the VideoWriter and capture objects
+
+        # Display the current frame
+        cv2.imshow('frame', frame)
+
+        # Check for a key press and break the loop if the user presses 'q'
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+
+# Release the VideoWriter and capture objects (This part needs corrections)
 out.release()
 cap.release()
 cv2.destroyAllWindows()
-
 
 # Print the dictionary of license plate numbers
 print("Detected License Plate Numbers:")
